@@ -1,14 +1,12 @@
-package com.sleebus.app.form;
+package com.sleebus.app.view;
 
-import com.codename1.ui.Form;
-import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.Resources;
 
 /**
  * Created by ahmedengu.
  */
-public class ListAlarms extends AbstractForm {
-    public ListAlarms(String name, Form back, Object parse) {
+public class Alert extends AbstractForm {
+    public Alert(String name, String back, Object parse) {
         super(name, back, parse);
     }
 
@@ -24,8 +22,6 @@ public class ListAlarms extends AbstractForm {
 
     @Override
     void initGuiComponents(Resources resourceObjectInstance) {
-        setLayout(new BoxLayout(BoxLayout.Y_AXIS));
-        setTitle(name);
-        setName(name);
+
     }
 }

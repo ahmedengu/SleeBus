@@ -1,20 +1,21 @@
-package com.sleebus.app.form;
+package com.sleebus.app.view;
 
 import com.codename1.ui.Display;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.util.Resources;
+import com.sleebus.app.controller.FormFactory;
 
 /**
  * Created by ahmedengu.
  */
 public abstract class AbstractForm extends Form {
-    protected Form back;
+    protected String back;
     protected String name;
     protected Object parse;
     protected Resources resources;
 
-    public AbstractForm(String name, Form back, Object parse) {
+    public AbstractForm(String name, String back, Object parse) {
         this.back = back;
         this.name = name;
         this.parse = parse;
@@ -38,7 +39,7 @@ public abstract class AbstractForm extends Form {
                 else
                     Display.getInstance().exitApplication();
             } else {
-                back.show();
+                FormFactory.showForm(back);
             }
         });
     }
@@ -49,7 +50,7 @@ public abstract class AbstractForm extends Form {
 
     abstract void initGuiComponents(Resources resourceObjectInstance);
 
-    public void showForm(AbstractForm back) {
+    public void showForm(String back) {
         this.back = back;
         this.show();
     }
@@ -57,4 +58,9 @@ public abstract class AbstractForm extends Form {
     public void showForm() {
         this.show();
     }
+
+    public void showBack() {
+        FormFactory.showForm(back);
+    }
+
 }
