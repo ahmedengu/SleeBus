@@ -10,14 +10,14 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.util.Resources;
 import com.sleebus.app.model.Alarm;
 
-public class AlarmContainer extends com.codename1.ui.Container {
-    Alarm alarm;
+class AlarmContainer extends com.codename1.ui.Container {
+    private final Alarm alarm;
 
     public AlarmContainer(Alarm alarm) {
         this(com.codename1.ui.util.Resources.getGlobalResources(), alarm);
     }
 
-    public AlarmContainer(Resources resourceObjectInstance, Alarm alarm) {
+    private AlarmContainer(Resources resourceObjectInstance, Alarm alarm) {
         this.alarm = alarm;
         initGuiBuilderComponents(resourceObjectInstance);
     }
@@ -29,9 +29,7 @@ public class AlarmContainer extends com.codename1.ui.Container {
         setUIID("AlarmContainer");
         MultiButton nameBtn = new MultiButton(alarm.getName());
         nameBtn.setUIID("Container");
-        nameBtn.addActionListener(evt -> {
-            ToastBar.showErrorMessage("Alarm: " + alarm.getName());
-        });
+        nameBtn.addActionListener(evt -> ToastBar.showErrorMessage("Alarm: " + alarm.getName()));
         Button deleteBtn = new Button("");
         deleteBtn.addActionListener(evt -> {
             Alarm.removeFromAlarms(alarm);

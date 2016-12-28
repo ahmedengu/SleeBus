@@ -10,12 +10,12 @@ import com.sleebus.app.controller.FormFactory;
  * Created by ahmedengu.
  */
 public abstract class AbstractForm extends Form {
-    protected String back;
-    protected String name;
-    protected Object parse;
-    protected Resources resources;
+    private String back;
+    final String name;
+    private final Object parse;
+    private final Resources resources;
 
-    public AbstractForm(String name, String back, Object parse) {
+    AbstractForm(String name, String back, Object parse) {
         this.back = back;
         this.name = name;
         this.parse = parse;

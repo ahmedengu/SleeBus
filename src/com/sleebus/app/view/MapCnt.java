@@ -13,7 +13,7 @@ public class MapCnt extends MapContainer {
         super(new GoogleMapsProvider("AIzaSyCOz5no0XXXCb3KTcXyskeZzysefXOvCNc"));
     }
 
-    public static synchronized MapCnt getInctance() {
+    public static synchronized MapCnt getInstance() {
         if (mapCnt == null)
             mapCnt = new MapCnt();
         return mapCnt;

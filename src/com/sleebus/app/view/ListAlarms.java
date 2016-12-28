@@ -33,14 +33,12 @@ public class ListAlarms extends AbstractForm {
         setTitle(name);
         setName(name);
         ArrayList<Alarm> alarms = Alarm.getAlarms();
-        for (int i = 0; i < alarms.size(); i++) {
-            add(new AlarmContainer(alarms.get(i)));
+        for (Alarm alarm : alarms) {
+            add(new AlarmContainer(alarm));
         }
 
         FloatingActionButton floatingActionButton = FloatingActionButton.createFAB(FontImage.MATERIAL_ALARM_ADD);
-        floatingActionButton.addActionListener(evt -> {
-            FormFactory.showForm(FormFactory.NEW_ALARM);
-        });
+        floatingActionButton.addActionListener(evt -> FormFactory.showForm(FormFactory.NEW_ALARM));
         floatingActionButton.bindFabToContainer(this.getContentPane());
     }
 }

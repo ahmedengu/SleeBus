@@ -37,9 +37,7 @@ public class NewAlarm extends AbstractForm {
         Container inputCnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
 
         TextField name = new TextField("", "Alarm Name");
-        name.addActionListener(evt -> {
-            alarmBuilder.setName(name.getText());
-        });
+        name.addActionListener(evt -> alarmBuilder.setName(name.getText()));
         inputCnt.add(name);
 
         TextField radius = new TextField("", "Radius");
@@ -57,7 +55,7 @@ public class NewAlarm extends AbstractForm {
         TextField expire = new TextField("", "Expire");
         expire.setConstraint(TextArea.NUMERIC);
         expire.addActionListener(evt -> {
-            long parseLong = 0;
+            long parseLong;
             try {
                 parseLong = Long.parseLong(expire.getText());
                 alarmBuilder.setExpire(parseLong);
@@ -68,21 +66,15 @@ public class NewAlarm extends AbstractForm {
         inputCnt.add(expire);
 
         CheckBox vibrateBox = new CheckBox("Vibrate");
-        vibrateBox.addActionListener(evt -> {
-            alarmBuilder.setVibrate(vibrateBox.isSelected());
-        });
+        vibrateBox.addActionListener(evt -> alarmBuilder.setVibrate(vibrateBox.isSelected()));
         inputCnt.add(vibrateBox);
 
         CheckBox flashlightBox = new CheckBox("Flashlight");
-        flashlightBox.addActionListener(evt -> {
-            alarmBuilder.setFlashlight(flashlightBox.isSelected());
-        });
+        flashlightBox.addActionListener(evt -> alarmBuilder.setFlashlight(flashlightBox.isSelected()));
         inputCnt.add(flashlightBox);
 
         CheckBox soundBox = new CheckBox("Sound");
-        soundBox.addActionListener(evt -> {
-            alarmBuilder.setSound(soundBox.isSelected());
-        });
+        soundBox.addActionListener(evt -> alarmBuilder.setSound(soundBox.isSelected()));
         inputCnt.add(soundBox);
 
         alarmBuilder.setLocation(new Coord(31.205753, 29.924526));

@@ -11,7 +11,7 @@ import com.sleebus.app.view.NewAlarm;
  * Created by ahmedengu.
  */
 public class FormFactory {
-    public static final int ALERT = 0;
+    private static final int ALERT = 0;
     public static final int LIST_ALARMS = 1;
     public static final int NEW_ALARM = 2;
 
@@ -23,7 +23,7 @@ public class FormFactory {
         return showForm(f, null);
     }
 
-    public static AbstractForm showForm(String f, Object parse) {
+    private static AbstractForm showForm(String f, Object parse) {
         int index = -1;
         String[] forms = new String[]{"Alert", "Home", "New Alarm"};
         for (int i = 0; i < forms.length; i++) {

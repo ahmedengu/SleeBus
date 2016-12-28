@@ -27,15 +27,15 @@ public class Alarm {
         this(new JSONObject(JsonString));
     }
 
-    public Alarm(JSONObject jsonObject) throws JSONException {
+    private Alarm(JSONObject jsonObject) throws JSONException {
         this(jsonObject.getString("name"), jsonObject.getBoolean("vibrate"), jsonObject.getBoolean("sound"), jsonObject.getBoolean("flashlight"), new Coord(jsonObject.getJSONObject("location").getDouble("lat"), jsonObject.getJSONObject("location").getDouble("lan")), jsonObject.getInt("radius"), jsonObject.getLong("expire"), jsonObject.getString("id"));
     }
 
-    public Alarm(String name, boolean vibrate, boolean sound, boolean flashlight, Coord location, int radius, long expire) {
+    private Alarm(String name, boolean vibrate, boolean sound, boolean flashlight, Coord location, int radius, long expire) {
         this(name, vibrate, sound, flashlight, location, radius, expire, Display.getInstance().getUdid());
     }
 
-    public Alarm(String name, boolean vibrate, boolean sound, boolean flashlight, Coord location, int radius, long expire, String id) {
+    private Alarm(String name, boolean vibrate, boolean sound, boolean flashlight, Coord location, int radius, long expire, String id) {
         this.name = name;
         this.vibrate = vibrate;
         this.sound = sound;
@@ -45,8 +45,8 @@ public class Alarm {
         this.expire = expire;
         this.id = (id == null) ? String.valueOf((System.currentTimeMillis())) : id;
 
-        for (int i = 0; i < alarms.size(); i++) {
-            if (alarms.get(i).equals(this))
+        for (Alarm alarm : alarms) {
+            if (alarm.equals(this))
                 return;
         }
 
@@ -122,10 +122,10 @@ public class Alarm {
         return alarms;
     }
 
-    public static String getAlarmsString() {
+    private static String getAlarmsString() {
         String ret = "[";
-        for (int i = 0; i < alarms.size(); i++) {
-            ret += alarms.get(i).toString() + ",";
+        for (Alarm alarm : alarms) {
+            ret += alarm.toString() + ",";
         }
         return ret.substring(0, ret.length() - 1) + "]";
     }
@@ -160,9 +160,9 @@ public class Alarm {
     }
 
     public static Alarm getFromAlarms(String id) {
-        for (int i = 0; i < Alarm.alarms.size(); i++) {
-            if (alarms.get(i).id.equals(id)) {
-                return alarms.get(i);
+        for (Alarm alarm : Alarm.alarms) {
+            if (alarm.id.equals(id)) {
+                return alarm;
             }
         }
         return null;
@@ -172,7 +172,7 @@ public class Alarm {
         return copy(this);
     }
 
-    public static Alarm copy(Alarm alarm) {
+    private static Alarm copy(Alarm alarm) {
         return new Alarm(alarm.name, alarm.vibrate, alarm.sound, alarm.flashlight, alarm.location, alarm.radius, alarm.expire);
     }
 
@@ -190,7 +190,7 @@ public class Alarm {
                 + "}";
     }
 
-    public static void saveToDesk() {
+    private static void saveToDesk() {
         Preferences.set("Alarms", Alarm.getAlarmsString());
     }
 

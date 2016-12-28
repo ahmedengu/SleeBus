@@ -13,10 +13,9 @@ import com.sleebus.app.model.Alarm;
 public class Main {
 
     private Form current;
-    private Resources theme;
 
     public void init(Object context) {
-        theme = UIManager.initFirstTheme("/theme");
+        Resources theme = UIManager.initFirstTheme("/theme");
         Toolbar.setGlobalToolbar(true);
         if (!Alarm.firstRunExample())
             try {
