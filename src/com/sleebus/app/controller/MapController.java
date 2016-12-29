@@ -149,11 +149,11 @@ public class MapController {
         return 2.0D * MathUtil.asin(Math.sqrt(a)) * 6371.0D;
     }
 
-    public Coord[] drawAround(double latitude, double longitude, double radius) {
+    public Coord[] drawAround(double latitude, double longitude, double radiusKM) {
         Coord[] locs = new Coord[361];
         double lat1 = latitude * Math.PI / 180.0;
         double lon1 = longitude * Math.PI / 180.0;
-        double d = radius / 3956;
+        double d = radiusKM / 6371;
         for (int i = 0; i <= 360; i++) {
             double tc = (i / 90) * Math.PI / 2;
             double lat = MathUtil.asin(Math.sin(lat1) * Math.cos(d) + Math.cos(lat1) * Math.sin(d) * Math.cos(tc));

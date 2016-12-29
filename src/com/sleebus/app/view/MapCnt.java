@@ -3,6 +3,8 @@ package com.sleebus.app.view;
 import com.codename1.googlemaps.MapContainer;
 import com.codename1.maps.Coord;
 import com.codename1.maps.providers.GoogleMapsProvider;
+import com.codename1.ui.FontImage;
+import com.codename1.ui.plaf.Style;
 import com.sleebus.app.controller.MapController;
 
 /**
@@ -10,17 +12,23 @@ import com.sleebus.app.controller.MapController;
  */
 public class MapCnt extends MapContainer {
 
-    public MapCnt(Coord coord, int radius) {
-        this();
-        Coord[] coords = MapController.getInstance().drawAround(coord.getLatitude(), coord.getLongitude(), radius);
-        addPath(coords);
-    }
-
     public MapCnt() {
         super(GoogleMapsPSingleton.getInstance());
         setShowMyLocation(true);
-        zoom(MapController.getInstance().getCurrentCoord(), getMaxZoom());
         setRotateGestureEnabled(true);
+        zoomTo(MapController.getInstance().getCurrentCoord());
+    }
+
+    public void zoomTo(Coord location) {
+        zoom(location, getMaxZoom());
+    }
+
+    public void newMarker(Style s, Coord coord, int radius) {
+        clearMapLayers();
+
+        addMarker(FontImage.createMaterial(FontImage.MATERIAL_LOCATION_ON, s).toEncodedImage(), coord, "Destination", "", null);
+        Coord[] coords = MapController.getInstance().drawAround(coord.getLatitude(), coord.getLongitude(), radius);
+        addPath(coords);
     }
 }
 

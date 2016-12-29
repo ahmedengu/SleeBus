@@ -154,6 +154,8 @@ public class Alarm {
         private long expire;
 
         public AlarmBuilder() {
+            radius = 3;
+            vibrate = true;
         }
 
         public AlarmBuilder(Alarm alarm) {

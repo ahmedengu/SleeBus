@@ -99,20 +99,20 @@ public class NewAlarm extends AbstractForm {
             mapDialog.setLayout(new BorderLayout());
             MapCnt mapCnt = new MapCnt();
 
-            if (alarmBuilder.getLocation() != null)
-                mapCnt.addMarker(FontImage.createMaterial(FontImage.MATERIAL_LOCATION_ON, s).toEncodedImage(), alarmBuilder.getLocation(), "Destination", "", null);
-
+            if (alarmBuilder.getLocation() != null) {
+                mapCnt.zoomTo(alarmBuilder.getLocation());
+                mapCnt.newMarker(s, alarmBuilder.getLocation(), alarmBuilder.getRadius());
+            }
             mapCnt.addTapListener(evt1 -> {
-                mapCnt.clearMapLayers();
                 Coord coord = mapCnt.getCoordAtPosition(evt1.getX(), evt1.getY());
 
-                mapCnt.addMarker(FontImage.createMaterial(FontImage.MATERIAL_LOCATION_ON, s).toEncodedImage(), coord, "Destination", "", null);
+                mapCnt.newMarker(s, coord, alarmBuilder.getRadius());
                 alarmBuilder.setLocation(coord);
-                mapDialog.dispose();
+
             });
             mapDialog.add(BorderLayout.CENTER, mapCnt);
 
-            Button cancelBtn = new Button("Cancel");
+            Button cancelBtn = new Button("Close");
             cancelBtn.addActionListener(evt1 -> {
                 mapDialog.dispose();
             });
@@ -133,4 +133,6 @@ public class NewAlarm extends AbstractForm {
 
         add(inputCnt);
     }
+
+
 }
