@@ -2,10 +2,7 @@ package com.sleebus.app.controller;
 
 import com.codename1.ui.Display;
 import com.codename1.ui.Form;
-import com.sleebus.app.view.AbstractForm;
-import com.sleebus.app.view.Alert;
-import com.sleebus.app.view.ListAlarms;
-import com.sleebus.app.view.NewAlarm;
+import com.sleebus.app.view.*;
 
 /**
  * Created by ahmedengu.
@@ -14,7 +11,9 @@ public class FormFactory {
     public static final int ALERT = 0;
     public static final int LIST_ALARMS = 1;
     public static final int NEW_ALARM = 2;
-    public static String[] FORMS = new String[]{"Alert", "Home", "New Alarm"};
+    public static final int SHOW_ALARM = 3;
+
+    public static String[] FORMS = new String[]{"Alert", "Home", "New Alarm", "Show Form"};
 
     private FormFactory() {
 
@@ -24,7 +23,7 @@ public class FormFactory {
         return showForm(f, null);
     }
 
-    private static AbstractForm showForm(String f, Object parse) {
+    public static AbstractForm showForm(String f, Object parse) {
         int index = -1;
         for (int i = 0; i < FORMS.length; i++) {
             if (FORMS[i].equals(f))
@@ -37,7 +36,7 @@ public class FormFactory {
         return showForm(f, null);
     }
 
-    private static AbstractForm showForm(int f, Object parse) {
+    public static AbstractForm showForm(int f, Object parse) {
         Form current = Display.getInstance().getCurrent();
         String back = (current == null) ? null : current.getName();
         switch (f) {
@@ -48,7 +47,7 @@ public class FormFactory {
             case NEW_ALARM:
                 return new NewAlarm("New Alarm", back, parse);
             default:
-                return null;
+                return new NullForm("Form", back, parse);
         }
     }
 }

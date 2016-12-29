@@ -1,13 +1,13 @@
 package com.sleebus.app.view;
 
 import com.codename1.components.MultiButton;
-import com.codename1.components.ToastBar;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.SwipeableContainer;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.util.Resources;
+import com.sleebus.app.controller.FormFactory;
 import com.sleebus.app.model.Alarm;
 import com.sleebus.app.model.AlarmDaoImpl;
 
@@ -30,7 +30,9 @@ class AlarmContainer extends com.codename1.ui.Container {
         setUIID("AlarmContainer");
         MultiButton nameBtn = new MultiButton(alarm.getName());
         nameBtn.setUIID("Container");
-        nameBtn.addActionListener(evt -> ToastBar.showErrorMessage("Alarm: " + alarm.getName()));
+        nameBtn.addActionListener(evt -> {
+            FormFactory.showForm(FormFactory.SHOW_ALARM, alarm);
+        });
         Button deleteBtn = new Button("");
         deleteBtn.addActionListener(evt -> {
             AlarmDaoImpl.getInstance().removeFromAlarms(alarm);
