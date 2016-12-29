@@ -1,21 +1,39 @@
 package com.sleebus.app.view;
 
 import com.codename1.googlemaps.MapContainer;
+import com.codename1.maps.Coord;
 import com.codename1.maps.providers.GoogleMapsProvider;
+import com.sleebus.app.controller.MapController;
 
 /**
  * Created by ahmedengu.
  */
 public class MapCnt extends MapContainer {
-    private static MapCnt mapCnt;
 
-    private MapCnt() {
-        super(new GoogleMapsProvider("AIzaSyCOz5no0XXXCb3KTcXyskeZzysefXOvCNc"));
+    public MapCnt(Coord coord, int radius) {
+        this();
+        Coord[] coords = MapController.getInstance().drawAround(coord.getLatitude(), coord.getLongitude(), radius);
+        addPath(coords);
     }
 
-    public static synchronized MapCnt getInstance() {
-        if (mapCnt == null)
-            mapCnt = new MapCnt();
-        return mapCnt;
+    public MapCnt() {
+        super(GoogleMapsPSingleton.getInstance());
+        setShowMyLocation(true);
+        zoom(MapController.getInstance().getCurrentCoord(), getMaxZoom());
+        setRotateGestureEnabled(true);
+    }
+}
+
+class GoogleMapsPSingleton extends GoogleMapsProvider {
+    private static GoogleMapsPSingleton googleMapsPSingleton;
+
+    private GoogleMapsPSingleton(String apiKey) {
+        super(apiKey);
+    }
+
+    public static synchronized GoogleMapsPSingleton getInstance() {
+        if (googleMapsPSingleton == null)
+            googleMapsPSingleton = new GoogleMapsPSingleton(MapController.MAPS_KEY);
+        return googleMapsPSingleton;
     }
 }

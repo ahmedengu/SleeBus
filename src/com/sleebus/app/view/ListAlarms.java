@@ -6,6 +6,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.Resources;
 import com.sleebus.app.controller.FormFactory;
 import com.sleebus.app.model.Alarm;
+import com.sleebus.app.model.AlarmDaoImpl;
 
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public class ListAlarms extends AbstractForm {
         setLayout(new BoxLayout(BoxLayout.Y_AXIS));
         setTitle(name);
         setName(name);
-        ArrayList<Alarm> alarms = Alarm.getAlarms();
+        ArrayList<Alarm> alarms = AlarmDaoImpl.getInstance().getAlarms();
         for (Alarm alarm : alarms) {
             add(new AlarmContainer(alarm));
         }
@@ -41,4 +42,6 @@ public class ListAlarms extends AbstractForm {
         floatingActionButton.addActionListener(evt -> FormFactory.showForm(FormFactory.NEW_ALARM));
         floatingActionButton.bindFabToContainer(this.getContentPane());
     }
+
+
 }

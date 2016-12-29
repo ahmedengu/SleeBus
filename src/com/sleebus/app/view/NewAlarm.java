@@ -3,8 +3,10 @@ package com.sleebus.app.view;
 import com.codename1.components.ToastBar;
 import com.codename1.maps.Coord;
 import com.codename1.ui.*;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.sleebus.app.model.Alarm;
 
@@ -16,9 +18,14 @@ public class NewAlarm extends AbstractForm {
         super(name, back, parse);
     }
 
+    Alarm.AlarmBuilder alarmBuilder;
+
     @Override
     protected void beforeForm() {
-
+        if (parse == null)
+            alarmBuilder = new Alarm.AlarmBuilder();
+        else
+            alarmBuilder = new Alarm.AlarmBuilder((Alarm) parse);
     }
 
     @Override
@@ -32,15 +39,15 @@ public class NewAlarm extends AbstractForm {
         setTitle(name);
         setName(name);
 
-        Alarm.AlarmBuilder alarmBuilder = new Alarm.AlarmBuilder();
-
         Container inputCnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
 
-        TextField name = new TextField("", "Alarm Name");
+        inputCnt.add(new Label("Alarm Name"));
+        TextField name = new TextField(alarmBuilder.getName(), "Alarm Name");
         name.addActionListener(evt -> alarmBuilder.setName(name.getText()));
         inputCnt.add(name);
 
-        TextField radius = new TextField("", "Radius");
+        inputCnt.add(new Label("Radius"));
+        TextField radius = new TextField(String.valueOf(alarmBuilder.getRadius()), "Radius");
         radius.setConstraint(TextArea.NUMERIC);
         radius.addActionListener(evt -> {
             try {
@@ -52,7 +59,8 @@ public class NewAlarm extends AbstractForm {
         });
         inputCnt.add(radius);
 
-        TextField expire = new TextField("", "Expire");
+        inputCnt.add(new Label("Expire"));
+        TextField expire = new TextField(String.valueOf(alarmBuilder.getExpire()), "Expire");
         expire.setConstraint(TextArea.NUMERIC);
         expire.addActionListener(evt -> {
             long parseLong;
@@ -66,18 +74,53 @@ public class NewAlarm extends AbstractForm {
         inputCnt.add(expire);
 
         CheckBox vibrateBox = new CheckBox("Vibrate");
+        vibrateBox.setSelected(alarmBuilder.isVibrate());
         vibrateBox.addActionListener(evt -> alarmBuilder.setVibrate(vibrateBox.isSelected()));
         inputCnt.add(vibrateBox);
 
         CheckBox flashlightBox = new CheckBox("Flashlight");
+        flashlightBox.setSelected(alarmBuilder.isFlashlight());
         flashlightBox.addActionListener(evt -> alarmBuilder.setFlashlight(flashlightBox.isSelected()));
         inputCnt.add(flashlightBox);
 
         CheckBox soundBox = new CheckBox("Sound");
+        soundBox.setSelected(alarmBuilder.isSound());
         soundBox.addActionListener(evt -> alarmBuilder.setSound(soundBox.isSelected()));
         inputCnt.add(soundBox);
 
-        alarmBuilder.setLocation(new Coord(31.205753, 29.924526));
+        Button locationBtn = new Button("Location");
+        FontImage.setMaterialIcon(locationBtn, FontImage.MATERIAL_MY_LOCATION);
+        locationBtn.addActionListener(evt -> {
+            Style s = new Style();
+            s.setBgTransparency(0);
+            s.setFgColor(0x0000FF);
+
+            Dialog mapDialog = new Dialog("Map");
+            mapDialog.setLayout(new BorderLayout());
+            MapCnt mapCnt = new MapCnt();
+
+            if (alarmBuilder.getLocation() != null)
+                mapCnt.addMarker(FontImage.createMaterial(FontImage.MATERIAL_LOCATION_ON, s).toEncodedImage(), alarmBuilder.getLocation(), "Destination", "", null);
+
+            mapCnt.addTapListener(evt1 -> {
+                mapCnt.clearMapLayers();
+                Coord coord = mapCnt.getCoordAtPosition(evt1.getX(), evt1.getY());
+
+                mapCnt.addMarker(FontImage.createMaterial(FontImage.MATERIAL_LOCATION_ON, s).toEncodedImage(), coord, "Destination", "", null);
+                alarmBuilder.setLocation(coord);
+                mapDialog.dispose();
+            });
+            mapDialog.add(BorderLayout.CENTER, mapCnt);
+
+            Button cancelBtn = new Button("Cancel");
+            cancelBtn.addActionListener(evt1 -> {
+                mapDialog.dispose();
+            });
+            mapDialog.add(BorderLayout.SOUTH, cancelBtn);
+            mapDialog.show();
+        });
+        inputCnt.add(locationBtn);
+
         Button addBtn = new Button("Add");
         FontImage.setMaterialIcon(addBtn, FontImage.MATERIAL_ADD);
         addBtn.addActionListener(evt -> {

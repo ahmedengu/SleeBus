@@ -9,6 +9,7 @@ import com.codename1.ui.SwipeableContainer;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.util.Resources;
 import com.sleebus.app.model.Alarm;
+import com.sleebus.app.model.AlarmDaoImpl;
 
 class AlarmContainer extends com.codename1.ui.Container {
     private final Alarm alarm;
@@ -32,14 +33,22 @@ class AlarmContainer extends com.codename1.ui.Container {
         nameBtn.addActionListener(evt -> ToastBar.showErrorMessage("Alarm: " + alarm.getName()));
         Button deleteBtn = new Button("");
         deleteBtn.addActionListener(evt -> {
-            Alarm.removeFromAlarms(alarm);
+            AlarmDaoImpl.getInstance().removeFromAlarms(alarm);
             Container parent = getParent();
             remove();
             parent.revalidate();
         });
         deleteBtn.setUIID("DeleteSwipe");
         FontImage.setMaterialIcon(deleteBtn, FontImage.MATERIAL_DELETE);
-        SwipeableContainer swipeableContainer = new SwipeableContainer(deleteBtn, nameBtn);
+
+        Button copyBtn = new Button("");
+        copyBtn.addActionListener(evt -> {
+            getParent().add(new AlarmContainer(alarm.clone()));
+            getParent().revalidate();
+        });
+        FontImage.setMaterialIcon(copyBtn, FontImage.MATERIAL_CONTENT_COPY);
+
+        SwipeableContainer swipeableContainer = new SwipeableContainer(GridLayout.encloseIn(2, copyBtn, deleteBtn), nameBtn);
         add(swipeableContainer);
     }
 }

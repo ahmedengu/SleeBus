@@ -12,7 +12,7 @@ import com.sleebus.app.controller.FormFactory;
 public abstract class AbstractForm extends Form {
     private String back;
     final String name;
-    private final Object parse;
+    final Object parse;
     private final Resources resources;
 
     AbstractForm(String name, String back, Object parse) {
@@ -33,7 +33,7 @@ public abstract class AbstractForm extends Form {
 
     private void setBackCmd() {
         setBackCommand("Back", FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, "TitleCommand", 3), evt -> {
-            if (back == null) {
+            if (back == null || name.equals(FormFactory.FORMS[FormFactory.LIST_ALARMS])) {
                 if (Display.getInstance().isAllowMinimizing())
                     Display.getInstance().minimizeApplication();
                 else

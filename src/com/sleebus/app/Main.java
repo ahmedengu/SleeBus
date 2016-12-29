@@ -8,7 +8,7 @@ import com.codename1.ui.Toolbar;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.sleebus.app.controller.FormFactory;
-import com.sleebus.app.model.Alarm;
+import com.sleebus.app.model.AlarmDaoImpl;
 
 public class Main {
 
@@ -17,9 +17,9 @@ public class Main {
     public void init(Object context) {
         Resources theme = UIManager.initFirstTheme("/theme");
         Toolbar.setGlobalToolbar(true);
-        if (!Alarm.firstRunExample())
+        if (!AlarmDaoImpl.getInstance().firstRunExample())
             try {
-                Alarm.loadFromDisk();
+                AlarmDaoImpl.getInstance().loadFromDisk();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
