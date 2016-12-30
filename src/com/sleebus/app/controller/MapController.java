@@ -169,4 +169,93 @@ public class MapController {
         }
         return locs;
     }
+
+
+    public static String getFormattedAddress(Coord coord) {
+        String ret = "";
+        try {
+            ConnectionRequest request = new ConnectionRequest("https://maps.googleapis.com/maps/api/geocode/json", false);
+            request.addArgument("key", MAPS_KEY);
+            request.addArgument("latlng", coord.getLatitude() + "," + coord.getLongitude());
+
+            NetworkManager.getInstance().addToQueueAndWait(request);
+            Map<String, Object> response = new JSONParser().parseJSON(new InputStreamReader(new ByteArrayInputStream(request.getResponseData()), "UTF-8"));
+            if (response.get("results") != null) {
+                ArrayList results = (ArrayList) response.get("results");
+                if (results.size() > 0)
+                    ret = (String) ((LinkedHashMap) results.get(0)).get("formatted_address");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public static void getFormattedAddressAsync(Coord coord, Callback callback) {
+        ConnectionRequest request = new ConnectionRequest("https://maps.googleapis.com/maps/api/geocode/json", false) {
+            @Override
+            protected void readResponse(InputStream input) throws IOException {
+                String ret = "";
+                Map<String, Object> response = new JSONParser().parseJSON(new InputStreamReader(input, "UTF-8"));
+                if (response.get("results") != null) {
+                    ArrayList results = (ArrayList) response.get("results");
+                    if (results.size() > 0)
+                        ret = (String) ((LinkedHashMap) results.get(0)).get("formatted_address");
+                }
+                callback.onSucess(ret);
+            }
+
+
+        };
+        request.addArgument("key", MAPS_KEY);
+        request.addArgument("latlng", coord.getLatitude() + "," + coord.getLongitude());
+
+        NetworkManager.getInstance().addToQueue(request);
+    }
+
+    public static Coord getCoords(String address) {
+        Coord ret = null;
+        try {
+            ConnectionRequest request = new ConnectionRequest("https://maps.googleapis.com/maps/api/geocode/json", false);
+            request.addArgument("key", MAPS_KEY);
+            request.addArgument("address", address);
+
+            NetworkManager.getInstance().addToQueueAndWait(request);
+            Map<String, Object> response = new JSONParser().parseJSON(new InputStreamReader(new ByteArrayInputStream(request.getResponseData()), "UTF-8"));
+            if (response.get("results") != null) {
+                ArrayList results = (ArrayList) response.get("results");
+                if (results.size() > 0) {
+                    LinkedHashMap location = (LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) results.get(0)).get("geometry")).get("location");
+                    ret = new Coord((double) location.get("lat"), (double) location.get("lng"));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public static void getCoordsAsync(String address, Callback callback) {
+        ConnectionRequest request = new ConnectionRequest("https://maps.googleapis.com/maps/api/geocode/json", false) {
+            @Override
+            protected void readResponse(InputStream input) throws IOException {
+                Coord ret = null;
+                Map<String, Object> response = new JSONParser().parseJSON(new InputStreamReader(input, "UTF-8"));
+                if (response.get("results") != null) {
+                    ArrayList results = (ArrayList) response.get("results");
+                    if (results.size() > 0) {
+                        LinkedHashMap location = (LinkedHashMap) ((LinkedHashMap) ((LinkedHashMap) results.get(0)).get("geometry")).get("location");
+                        ret = new Coord((double) location.get("lat"), (double) location.get("lng"));
+                    }
+                }
+                callback.onSucess(ret);
+            }
+
+
+        };
+        request.addArgument("key", MAPS_KEY);
+        request.addArgument("address", address);
+
+        NetworkManager.getInstance().addToQueue(request);
+    }
 }
