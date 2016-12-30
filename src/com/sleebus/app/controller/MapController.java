@@ -258,4 +258,54 @@ public class MapController {
 
         NetworkManager.getInstance().addToQueue(request);
     }
+
+    public static ArrayList<String> getAutoComplete(String input, String language, String types) {
+        ArrayList<String> ret = new ArrayList<>();
+        try {
+            ConnectionRequest request = new ConnectionRequest("https://maps.googleapis.com/maps/api/place/autocomplete/json", false);
+            request.addArgument("key", MAPS_KEY);
+            request.addArgument("input", input);
+            request.addArgument("types", types);
+            request.addArgument("language", language);
+
+            NetworkManager.getInstance().addToQueueAndWait(request);
+            Map<String, Object> response = new JSONParser().parseJSON(new InputStreamReader(new ByteArrayInputStream(request.getResponseData()), "UTF-8"));
+            if (response.get("predictions") != null) {
+                ArrayList results = (ArrayList) response.get("predictions");
+                if (results.size() > 0)
+                    for (int i = 0; i < results.size(); i++) {
+                        ret.add((String) ((LinkedHashMap) results.get(i)).get("description"));
+                    }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public static void getAutoCompleteAsync(String input, String language, String types, Callback callback) {
+        ConnectionRequest request = new ConnectionRequest("https://maps.googleapis.com/maps/api/place/autocomplete/json", false) {
+            @Override
+            protected void readResponse(InputStream input) throws IOException {
+                ArrayList<String> ret = new ArrayList<>();
+                Map<String, Object> response = new JSONParser().parseJSON(new InputStreamReader(input, "UTF-8"));
+                if (response.get("predictions") != null) {
+                    ArrayList results = (ArrayList) response.get("predictions");
+                    if (results.size() > 0)
+                        for (int i = 0; i < results.size(); i++) {
+                            ret.add((String) ((LinkedHashMap) results.get(i)).get("description"));
+                        }
+                }
+                callback.onSucess(ret);
+            }
+
+
+        };
+        request.addArgument("key", MAPS_KEY);
+        request.addArgument("input", input);
+        request.addArgument("types", types);
+        request.addArgument("language", language);
+
+        NetworkManager.getInstance().addToQueue(request);
+    }
 }
