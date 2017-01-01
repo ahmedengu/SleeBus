@@ -24,12 +24,7 @@ public class FormFactory {
     }
 
     public static AbstractForm showForm(String f, Object parse) {
-        int index = -1;
-        for (int i = 0; i < FORMS.length; i++) {
-            if (FORMS[i].equals(f))
-                index = i;
-        }
-        return showForm(index, parse);
+        return showForm(Facade.StringsIndexOf(FORMS, f), parse);
     }
 
     public static AbstractForm showForm(int f) {

@@ -5,6 +5,11 @@ package com.sleebus.app.model;
  */
 public class DisabledAlarm implements AlarmState {
     @Override
+    public String getStateName() {
+        return "Disabled";
+    }
+
+    @Override
     public void alert(Alarm alarm) {
 
     }

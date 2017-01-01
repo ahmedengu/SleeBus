@@ -4,6 +4,7 @@ import ca.weblite.codename1.json.JSONException;
 import ca.weblite.codename1.json.JSONObject;
 import com.codename1.maps.Coord;
 import com.codename1.ui.Display;
+import com.sleebus.app.controller.AlarmStateFactory;
 
 /**
  * Created by ahmedengu.
@@ -17,20 +18,21 @@ public class Alarm {
     private int radius;
     private long expire;
     private String id;
+    private AlarmState state;
 
     public Alarm(String JsonString) throws JSONException {
         this(new JSONObject(JsonString));
     }
 
     Alarm(JSONObject jsonObject) throws JSONException {
-        this(jsonObject.getString("name"), jsonObject.getBoolean("vibrate"), jsonObject.getBoolean("sound"), jsonObject.getBoolean("flashlight"), new Coord(jsonObject.getJSONObject("location").getDouble("lat"), jsonObject.getJSONObject("location").getDouble("lan")), jsonObject.getInt("radius"), jsonObject.getLong("expire"), jsonObject.getString("id"));
+        this(jsonObject.getString("name"), jsonObject.getBoolean("vibrate"), jsonObject.getBoolean("sound"), jsonObject.getBoolean("flashlight"), new Coord(jsonObject.getJSONObject("location").getDouble("lat"), jsonObject.getJSONObject("location").getDouble("lan")), jsonObject.getInt("radius"), jsonObject.getLong("expire"), jsonObject.getString("id"), jsonObject.getString("state"));
     }
 
     Alarm(String name, boolean vibrate, boolean sound, boolean flashlight, Coord location, int radius, long expire) {
-        this(name, vibrate, sound, flashlight, location, radius, expire, Display.getInstance().getUdid());
+        this(name, vibrate, sound, flashlight, location, radius, expire, Display.getInstance().getUdid(), null);
     }
 
-    private Alarm(String name, boolean vibrate, boolean sound, boolean flashlight, Coord location, int radius, long expire, String id) {
+    private Alarm(String name, boolean vibrate, boolean sound, boolean flashlight, Coord location, int radius, long expire, String id, String state) {
         this.name = name;
         this.vibrate = vibrate;
         this.sound = sound;
@@ -39,6 +41,10 @@ public class Alarm {
         this.radius = radius;
         this.expire = expire;
         this.id = (id == null) ? String.valueOf((System.currentTimeMillis())) : id;
+        if (state == null)
+            this.state = AlarmStateFactory.getState(AlarmStateFactory.ACTIVE);
+        else
+            this.state = AlarmStateFactory.getState(state);
 
         AlarmDaoImpl.getInstance().addToAlarms(this);
     }
@@ -107,6 +113,14 @@ public class Alarm {
         this.id = id;
     }
 
+    public AlarmState getState() {
+        return state;
+    }
+
+    public void setState(AlarmState state) {
+        this.state = state;
+    }
+
     public Alarm clone() {
         return copy(this);
     }
@@ -126,6 +140,7 @@ public class Alarm {
                 + ",\"radius\":\"" + radius + "\""
                 + ",\"expire\":\"" + expire + "\""
                 + ",\"id\":\"" + id + "\""
+                + ",\"state\":\"" + state.getStateName() + "\""
                 + "}";
     }
 

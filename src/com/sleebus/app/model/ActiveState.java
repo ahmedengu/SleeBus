@@ -3,10 +3,10 @@ package com.sleebus.app.model;
 /**
  * Created by ahmedengu.
  */
-public class ExpiredAlarm implements AlarmState {
+public class ActiveState implements AlarmState {
     @Override
     public String getStateName() {
-        return "Expired";
+        return "Active";
     }
 
     @Override
