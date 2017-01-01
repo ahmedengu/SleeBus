@@ -1,16 +1,18 @@
 package com.sleebus.app;
 
 import ca.weblite.codename1.json.JSONException;
+import com.codename1.notifications.LocalNotificationCallback;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.Form;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
+import com.sleebus.app.controller.Facade;
 import com.sleebus.app.controller.FormFactory;
 import com.sleebus.app.model.AlarmDaoImpl;
 
-public class Main {
+public class Main implements LocalNotificationCallback {
 
     private Form current;
 
@@ -42,5 +44,10 @@ public class Main {
     }
 
     public void destroy() {
+    }
+
+    @Override
+    public void localNotificationReceived(String notificationId) {
+        Facade.showFormCallback(notificationId);
     }
 }
