@@ -10,8 +10,9 @@ public class AlarmStateFactory {
     public static final int EXPIRED = 1;
     public static final int SNOOZED = 2;
     public static final int ACTIVE = 3;
+    public static final int ENTERED = 4;
 
-    public static final String[] STATES = new String[]{"Disabled", "Expired", "Snoozed", "Active"};
+    public static final String[] STATES = new String[]{"Disabled", "Expired", "Snoozed", "Active", "Entered"};
 
     public static AlarmState getState(String name) {
         return getState(Facade.StringsIndexOf(STATES, name));
@@ -27,6 +28,8 @@ public class AlarmStateFactory {
                 return new SnoozedState();
             case ACTIVE:
                 return new ActiveState();
+            case ENTERED:
+                return new EnteredState();
             default:
                 return new NullAlarmState();
         }

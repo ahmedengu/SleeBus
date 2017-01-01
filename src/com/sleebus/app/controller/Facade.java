@@ -1,5 +1,8 @@
 package com.sleebus.app.controller;
 
+import com.codename1.ui.Display;
+import com.sleebus.app.model.AlarmDaoImpl;
+
 /**
  * Created by ahmedengu.
  */
@@ -14,4 +17,11 @@ public class Facade {
         }
         return -1;
     }
+
+    public static void showFormCallback(String notificationId) {
+        Display.getInstance().callSerially(() -> {
+            FormFactory.showForm(FormFactory.ALERT, AlarmDaoImpl.getInstance().getFromAlarms(notificationId));
+        });
+    }
+
 }
