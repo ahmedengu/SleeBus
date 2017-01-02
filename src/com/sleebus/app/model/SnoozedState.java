@@ -10,7 +10,7 @@ public class SnoozedState implements AlarmState {
     }
 
     @Override
-    public void alert(Alarm alarm) {
+    public void attach(Alarm alarm) {
 
     }
 }

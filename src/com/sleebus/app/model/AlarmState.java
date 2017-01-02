@@ -6,5 +6,6 @@ package com.sleebus.app.model;
 public interface AlarmState {
     public String getStateName();
 
-    public void alert(Alarm alarm);
+    public void attach(Alarm alarm);
+
 }
