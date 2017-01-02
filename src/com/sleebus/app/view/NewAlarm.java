@@ -95,8 +95,10 @@ public class NewAlarm extends AbstractForm {
             s.setBgTransparency(0);
             s.setFgColor(0x0000FF);
 
-            Dialog mapDialog = new Dialog("Map");
+            Form mapDialog = new Form("Map");
             mapDialog.setLayout(new BorderLayout());
+            mapDialog.setHeight(Display.getInstance().getDisplayHeight());
+            mapDialog.setWidth(Display.getInstance().getDisplayWidth());
             MapCnt mapCnt = new MapCnt();
 
             if (alarmBuilder.getLocation() != null) {
@@ -114,7 +116,7 @@ public class NewAlarm extends AbstractForm {
 
             Button cancelBtn = new Button("Close");
             cancelBtn.addActionListener(evt1 -> {
-                mapDialog.dispose();
+                show();
             });
             mapDialog.add(BorderLayout.SOUTH, cancelBtn);
             mapDialog.show();

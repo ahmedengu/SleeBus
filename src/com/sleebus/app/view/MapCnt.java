@@ -20,7 +20,8 @@ public class MapCnt extends MapContainer {
     }
 
     public void zoomTo(Coord location) {
-        zoom(location, getMaxZoom());
+        if (location != null)
+            zoom(location, getMaxZoom());
     }
 
     public void newMarker(Style s, Coord coord, int radius) {
