@@ -25,5 +25,6 @@ public class GeofenceListenerImpl implements GeofenceListener {
         } else {
             Facade.showFormCallback(id);
         }
+        Facade.makingNoise(id);
     }
 }
