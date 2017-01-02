@@ -36,11 +36,13 @@ public class FormFactory {
         String back = (current == null) ? null : current.getName();
         switch (f) {
             case ALERT:
-                return new Alert("Alert", back, parse);
+                return new Alert(FORMS[ALERT], back, parse);
             case LIST_ALARMS:
-                return new ListAlarms("Home", back, parse);
+                return new ListAlarms(FORMS[LIST_ALARMS], back, parse);
             case NEW_ALARM:
-                return new NewAlarm("New Alarm", back, parse);
+                return new NewAlarm(FORMS[NEW_ALARM], back, parse);
+            case SHOW_ALARM:
+                return new NewAlarm(FORMS[SHOW_ALARM], back, parse);
             default:
                 return new NullForm("Form", back, parse);
         }

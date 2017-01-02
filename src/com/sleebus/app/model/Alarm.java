@@ -167,6 +167,7 @@ public class Alarm {
         private Coord location;
         private int radius;
         private long expire;
+        private Alarm alarm;
 
         public AlarmBuilder() {
             radius = 3;
@@ -181,6 +182,7 @@ public class Alarm {
             this.location = alarm.location;
             this.radius = alarm.radius;
             this.expire = alarm.expire;
+            this.alarm = alarm;
         }
 
         public void setName(String name) {
@@ -213,7 +215,18 @@ public class Alarm {
 
         public Alarm build() {
             if (name != null && location != null && radius != 0 && expire != 0)
-                return new Alarm(name, vibrate, sound, flashlight, location, radius, expire);
+                if (alarm != null) {
+                    alarm.setLocation(location);
+                    alarm.setName(name);
+                    alarm.setFlashlight(flashlight);
+                    alarm.setExpire(expire);
+                    alarm.setRadius(radius);
+                    alarm.setSound(sound);
+                    alarm.setVibrate(vibrate);
+                    AlarmDaoImpl.getInstance().updateAlarm(alarm);
+                    return alarm;
+                } else
+                    return new Alarm(name, vibrate, sound, flashlight, location, radius, expire);
             return null;
         }
 
@@ -243,6 +256,10 @@ public class Alarm {
 
         public long getExpire() {
             return expire;
+        }
+
+        public Alarm getAlarm() {
+            return alarm;
         }
     }
 }

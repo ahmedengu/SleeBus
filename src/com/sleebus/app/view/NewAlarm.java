@@ -121,8 +121,8 @@ public class NewAlarm extends AbstractForm {
         });
         inputCnt.add(locationBtn);
 
-        Button addBtn = new Button("Add");
-        FontImage.setMaterialIcon(addBtn, FontImage.MATERIAL_ADD);
+        Button addBtn = new Button(alarmBuilder.getAlarm() == null ? "Add" : "Save");
+        FontImage.setMaterialIcon(addBtn, alarmBuilder.getAlarm() == null ? FontImage.MATERIAL_ADD : FontImage.MATERIAL_SAVE);
         addBtn.addActionListener(evt -> {
             if (alarmBuilder.build() != null)
                 showBack();

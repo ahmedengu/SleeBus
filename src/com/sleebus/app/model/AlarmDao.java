@@ -14,6 +14,8 @@ public interface AlarmDao {
 
     public void setAlarms(ArrayList<Alarm> alarms);
 
+    public void updateAlarm(Alarm alarm);
+
     public void addToAlarms(Alarm alarm);
 
     public void removeFromAlarms(Alarm alarm);

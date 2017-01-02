@@ -7,6 +7,7 @@ import com.codename1.ui.FontImage;
 import com.codename1.ui.SwipeableContainer;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.util.Resources;
+import com.sleebus.app.controller.AlarmStateFactory;
 import com.sleebus.app.controller.FormFactory;
 import com.sleebus.app.model.Alarm;
 import com.sleebus.app.model.AlarmDaoImpl;
@@ -50,7 +51,26 @@ class AlarmContainer extends com.codename1.ui.Container {
         });
         FontImage.setMaterialIcon(copyBtn, FontImage.MATERIAL_CONTENT_COPY);
 
-        SwipeableContainer swipeableContainer = new SwipeableContainer(GridLayout.encloseIn(2, copyBtn, deleteBtn), nameBtn);
+        Button stateBtn = new Button("");
+        stateBtn.addActionListener(evt -> {
+            if (alarm.getState().getStateName().equals("Disabled")) {
+                alarm.setState(AlarmStateFactory.getState(AlarmStateFactory.ACTIVE));
+                AlarmDaoImpl.getInstance().updateAlarm(alarm);
+                FontImage.setMaterialIcon(stateBtn, FontImage.MATERIAL_ALARM_ON);
+            } else {
+                alarm.setState(AlarmStateFactory.getState(AlarmStateFactory.DISABLED));
+                AlarmDaoImpl.getInstance().updateAlarm(alarm);
+                FontImage.setMaterialIcon(stateBtn, FontImage.MATERIAL_ALARM_OFF);
+            }
+            getParent().revalidate();
+        });
+
+        if (alarm.getState().getStateName().equals("Disabled"))
+            FontImage.setMaterialIcon(stateBtn, FontImage.MATERIAL_ALARM_OFF);
+        else
+            FontImage.setMaterialIcon(stateBtn, FontImage.MATERIAL_ALARM_ON);
+
+        SwipeableContainer swipeableContainer = new SwipeableContainer(GridLayout.encloseIn(3, stateBtn, copyBtn, deleteBtn), nameBtn);
         add(swipeableContainer);
     }
 }

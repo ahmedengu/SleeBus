@@ -45,6 +45,16 @@ public class AlarmDaoImpl implements AlarmDao {
     }
 
     @Override
+    public void updateAlarm(Alarm alarm) {
+        for (int i = 0; i < alarms.size(); i++) {
+            if (alarm.getId().equals(alarms.get(i).getId())) {
+                alarms.set(i, alarm);
+            }
+        }
+        saveToDesk();
+    }
+
+    @Override
     public void addToAlarms(Alarm alarm) {
         for (Alarm a : alarms) {
             if (a.equals(alarm))
@@ -119,5 +129,6 @@ public class AlarmDaoImpl implements AlarmDao {
             }
         }
     }
+
 
 }

@@ -6,7 +6,7 @@ package com.sleebus.app.model;
 public class NullAlarmState implements AlarmState {
     @Override
     public String getStateName() {
-        return null;
+        return "Null";
     }
 
     @Override
