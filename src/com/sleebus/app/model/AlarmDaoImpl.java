@@ -74,14 +74,12 @@ public class AlarmDaoImpl implements AlarmDao {
     public void clearAlarms() {
         this.alarms.clear();
         saveToDesk();
-
     }
 
     @Override
     public void removeFromAlarms(int i) {
         this.alarms.remove(i);
         saveToDesk();
-
     }
 
     @Override

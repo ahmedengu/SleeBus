@@ -20,8 +20,14 @@ public class MapCnt extends MapContainer {
     }
 
     public void zoomTo(Coord location) {
-        if (location != null)
+        if (location != null) {
             zoom(location, getMaxZoom());
+            if (!this.isNativeMaps()) {
+                Style s = new Style();
+                s.setFgColor(0x00FF00);
+                addMarker(FontImage.createMaterial(FontImage.MATERIAL_LOCATION_ON, s).toEncodedImage(), location, "Your location", "", null);
+            }
+        }
     }
 
     public void newMarker(Style s, Coord coord, int radius) {

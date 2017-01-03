@@ -43,9 +43,9 @@ public class Alarm {
         this.expire = expire;
         this.id = (id == null) ? String.valueOf((System.currentTimeMillis())) : id;
         if (state == null)
-            this.state = AlarmStateFactory.getState(AlarmStateFactory.ACTIVE);
+            this.setState(AlarmStateFactory.getState(AlarmStateFactory.ACTIVE));
         else
-            this.state = AlarmStateFactory.getState(state);
+            this.setState(AlarmStateFactory.getState(state));
 
         AlarmDaoImpl.getInstance().addToAlarms(this);
     }
@@ -120,6 +120,7 @@ public class Alarm {
 
     public void setState(AlarmState state) {
         this.state = state;
+        state.attach(this);
     }
 
     public Alarm clone() {
