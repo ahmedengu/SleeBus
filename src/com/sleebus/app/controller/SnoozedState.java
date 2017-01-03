@@ -20,7 +20,7 @@ public class SnoozedState implements AlarmState {
 
     @Override
     public void attach(Alarm alarm) {
-
+        UtilsFacade.makingNoise(alarm, 600);
     }
 
     @Override

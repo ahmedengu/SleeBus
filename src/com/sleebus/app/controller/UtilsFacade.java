@@ -39,6 +39,11 @@ public class UtilsFacade {
     }
 
     public static void makingNoise(Alarm alarm) {
+        makingNoise(alarm, 100);
+    }
+
+
+    public static void makingNoise(Alarm alarm, int delay) {
         if (alarm.getState().getStateName().equals("Activited")) {
             if (alarm.isVibrate())
                 Display.getInstance().vibrate(3);
@@ -52,7 +57,7 @@ public class UtilsFacade {
                 public void run() {
                     makingNoise(alarm.getId());
                 }
-            }, 10);
+            }, delay);
         }
     }
 

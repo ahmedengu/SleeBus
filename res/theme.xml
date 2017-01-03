@@ -28,6 +28,8 @@
     <image name="Button.press#borderTopL_1.png6" type="multi"  />
     <image name="Button.press#borderTopR_1.png6" type="multi"  />
     <image name="button_left_pressed.png2" type="multi"  />
+    <image name="check.png" type="multi"  />
+    <image name="check_selected.png" type="multi"  />
     <image name="DataSheet.borderBottom_1.png2" type="multi"  />
     <image name="DataSheet.borderBottomL_1.png2" type="multi"  />
     <image name="DataSheet.borderBottomR_1.png2" type="multi"  />
@@ -138,6 +140,10 @@
     <image name="slider-fill@2x_left.png2" type="multi"  />
     <image name="slider-fill@2x_right.png2" type="multi"  />
     <theme name="social boo">
+        <val key="@checkBoxCheckedFocusImage" value="check.png" />
+        <val key="@checkBoxCheckedImage" value="check.png" />
+        <val key="@checkBoxUncheckedFocusImage" value="check_selected.png" />
+        <val key="@checkBoxUncheckedImage" value="check_selected.png" />
         <val key="@includeNativeBool" value="true" />
         <val key="@largeMaskImage" value="maskb.png 32" />
         <val key="@mapZoomButtonsBool" value="false" />
