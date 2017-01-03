@@ -24,7 +24,7 @@ public class FormFactory {
     }
 
     public static AbstractForm showForm(String f, Object parse) {
-        return showForm(Facade.StringsIndexOf(FORMS, f), parse);
+        return showForm(UtilsFacade.StringsIndexOf(FORMS, f), parse);
     }
 
     public static AbstractForm showForm(int f) {

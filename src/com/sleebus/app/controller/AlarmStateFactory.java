@@ -1,7 +1,5 @@
 package com.sleebus.app.controller;
 
-import com.sleebus.app.model.*;
-
 /**
  * Created by ahmedengu.
  */
@@ -13,7 +11,7 @@ public class AlarmStateFactory {
     public static final String[] STATES = new String[]{"Disabled", "Snoozed", "Active"};
 
     public static AlarmState getState(String name) {
-        return getState(Facade.StringsIndexOf(STATES, name));
+        return getState(UtilsFacade.StringsIndexOf(STATES, name));
     }
 
     public static AlarmState getState(int i) {

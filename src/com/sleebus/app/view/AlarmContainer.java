@@ -7,6 +7,7 @@ import com.codename1.ui.FontImage;
 import com.codename1.ui.SwipeableContainer;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.util.Resources;
+import com.sleebus.app.controller.AlarmState;
 import com.sleebus.app.controller.AlarmStateFactory;
 import com.sleebus.app.controller.FormFactory;
 import com.sleebus.app.model.Alarm;
@@ -28,9 +29,9 @@ class AlarmContainer extends com.codename1.ui.Container {
         setLayout(new GridLayout(1));
         setScrollableX(false);
         setName("AlarmContainer");
-        setUIID("AlarmContainer");
+
         MultiButton nameBtn = new MultiButton(alarm.getName());
-        nameBtn.setUIID("Container");
+        nameBtn.setUIID("Button");
         nameBtn.addActionListener(evt -> {
             FormFactory.showForm(FormFactory.SHOW_ALARM, alarm);
         });
@@ -41,9 +42,8 @@ class AlarmContainer extends com.codename1.ui.Container {
             remove();
             parent.revalidate();
         });
-        deleteBtn.setUIID("DeleteSwipe");
-        FontImage.setMaterialIcon(deleteBtn, FontImage.MATERIAL_DELETE);
 
+        FontImage.setMaterialIcon(deleteBtn, FontImage.MATERIAL_DELETE);
         Button copyBtn = new Button("");
         copyBtn.addActionListener(evt -> {
             getParent().add(new AlarmContainer(alarm.clone()));
@@ -54,13 +54,19 @@ class AlarmContainer extends com.codename1.ui.Container {
         Button stateBtn = new Button("");
         stateBtn.addActionListener(evt -> {
             if (alarm.getState().getStateName().equals("Disabled")) {
-                alarm.setState(AlarmStateFactory.getState(AlarmStateFactory.ACTIVE));
-                AlarmDaoImpl.getInstance().updateAlarm(alarm);
-                FontImage.setMaterialIcon(stateBtn, FontImage.MATERIAL_ALARM_ON);
+                AlarmState state = AlarmStateFactory.getState(AlarmStateFactory.ACTIVE);
+                if (state.precondition(alarm)) {
+                    alarm.setState(state);
+                    AlarmDaoImpl.getInstance().updateAlarm(alarm);
+                    FontImage.setMaterialIcon(stateBtn, FontImage.MATERIAL_ALARM_ON);
+                }
             } else {
-                alarm.setState(AlarmStateFactory.getState(AlarmStateFactory.DISABLED));
-                AlarmDaoImpl.getInstance().updateAlarm(alarm);
-                FontImage.setMaterialIcon(stateBtn, FontImage.MATERIAL_ALARM_OFF);
+                AlarmState state = AlarmStateFactory.getState(AlarmStateFactory.DISABLED);
+                if (state.precondition(alarm)) {
+                    alarm.setState(state);
+                    AlarmDaoImpl.getInstance().updateAlarm(alarm);
+                    FontImage.setMaterialIcon(stateBtn, FontImage.MATERIAL_ALARM_OFF);
+                }
             }
             getParent().revalidate();
         });

@@ -8,7 +8,7 @@ import com.codename1.ui.Form;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
-import com.sleebus.app.controller.Facade;
+import com.sleebus.app.controller.UtilsFacade;
 import com.sleebus.app.controller.FormFactory;
 import com.sleebus.app.model.AlarmDaoImpl;
 
@@ -48,6 +48,6 @@ public class Main implements LocalNotificationCallback {
 
     @Override
     public void localNotificationReceived(String notificationId) {
-        Facade.showFormCallback(notificationId);
+        UtilsFacade.showFormCallback(notificationId);
     }
 }

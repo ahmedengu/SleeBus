@@ -5,6 +5,7 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+import com.sleebus.app.controller.AlarmState;
 import com.sleebus.app.controller.AlarmStateFactory;
 import com.sleebus.app.model.Alarm;
 import com.sleebus.app.model.AlarmDaoImpl;
@@ -36,8 +37,11 @@ public class Alert extends AbstractForm {
         CountdownLabel countdownLabel = new CountdownLabel(120, FontImage.createMaterial(FontImage.MATERIAL_ALARM, new Style()), "Label", new CountdownLabel.Callback() {
             @Override
             public void done() {
-                alarm.setState(AlarmStateFactory.getState(AlarmStateFactory.SNOOZED));
-                AlarmDaoImpl.getInstance().updateAlarm(alarm);
+                AlarmState state = AlarmStateFactory.getState(AlarmStateFactory.SNOOZED);
+                if (state.precondition(alarm)) {
+                    alarm.setState(state);
+                    AlarmDaoImpl.getInstance().updateAlarm(alarm);
+                }
             }
         });
         add(BorderLayout.CENTER, countdownLabel);
@@ -47,24 +51,30 @@ public class Alert extends AbstractForm {
         Button snoozeBtn = new Button("Snooze");
         FontImage.setMaterialIcon(snoozeBtn, FontImage.MATERIAL_SNOOZE);
         snoozeBtn.addActionListener(evt -> {
-            alarm.setState(AlarmStateFactory.getState(AlarmStateFactory.SNOOZED));
-            AlarmDaoImpl.getInstance().updateAlarm(alarm);
-            if (Display.getInstance().isAllowMinimizing())
-                Display.getInstance().minimizeApplication();
-            else
-                Display.getInstance().exitApplication();
+            AlarmState state = AlarmStateFactory.getState(AlarmStateFactory.SNOOZED);
+            if (state.precondition(alarm)) {
+                alarm.setState(state);
+                AlarmDaoImpl.getInstance().updateAlarm(alarm);
+                if (Display.getInstance().isAllowMinimizing())
+                    Display.getInstance().minimizeApplication();
+                else
+                    Display.getInstance().exitApplication();
+            }
         });
         southCnt.add(snoozeBtn);
 
         Button disableBtn = new Button("Disable");
         FontImage.setMaterialIcon(disableBtn, FontImage.MATERIAL_ALARM_OFF);
         disableBtn.addActionListener(evt -> {
-            alarm.setState(AlarmStateFactory.getState(AlarmStateFactory.DISABLED));
-            AlarmDaoImpl.getInstance().updateAlarm(alarm);
-            if (Display.getInstance().isAllowMinimizing())
-                Display.getInstance().minimizeApplication();
-            else
-                Display.getInstance().exitApplication();
+            AlarmState state = AlarmStateFactory.getState(AlarmStateFactory.DISABLED);
+            if (state.precondition(alarm)) {
+                alarm.setState(state);
+                AlarmDaoImpl.getInstance().updateAlarm(alarm);
+                if (Display.getInstance().isAllowMinimizing())
+                    Display.getInstance().minimizeApplication();
+                else
+                    Display.getInstance().exitApplication();
+            }
         });
         southCnt.add(disableBtn);
 

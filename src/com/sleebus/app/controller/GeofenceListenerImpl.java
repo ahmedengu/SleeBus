@@ -23,8 +23,8 @@ public class GeofenceListenerImpl implements GeofenceListener {
         Display.getInstance().scheduleLocalNotification(notification, System.currentTimeMillis() + 10, LocalNotification.REPEAT_NONE);
 
         if (!Display.getInstance().isMinimized()) {
-            Facade.showFormCallback(id);
+            UtilsFacade.showFormCallback(id);
         }
-        Facade.makingNoise(id);
+        UtilsFacade.makingNoise(id);
     }
 }

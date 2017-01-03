@@ -4,6 +4,7 @@ import ca.weblite.codename1.json.JSONException;
 import ca.weblite.codename1.json.JSONObject;
 import com.codename1.maps.Coord;
 import com.codename1.ui.Display;
+import com.sleebus.app.controller.AlarmState;
 import com.sleebus.app.controller.AlarmStateFactory;
 
 /**
