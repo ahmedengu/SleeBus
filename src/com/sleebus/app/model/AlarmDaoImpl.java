@@ -4,6 +4,7 @@ import ca.weblite.codename1.json.JSONArray;
 import ca.weblite.codename1.json.JSONException;
 import com.codename1.io.Preferences;
 import com.codename1.maps.Coord;
+import com.sleebus.app.controller.AlarmStateFactory;
 
 import java.util.ArrayList;
 
@@ -67,6 +68,7 @@ public class AlarmDaoImpl implements AlarmDao {
     @Override
     public void removeFromAlarms(Alarm alarm) {
         this.alarms.remove(alarm);
+        AlarmStateFactory.getState(AlarmStateFactory.DISABLED).attach(alarm);
         saveToDesk();
     }
 
