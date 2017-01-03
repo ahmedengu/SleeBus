@@ -23,6 +23,7 @@ public class ActiveState implements AlarmState {
 
     @Override
     public void attach(Alarm alarm) {
+        LocationManager.getLocationManager().removeGeoFencing(alarm.getId());
         Location location = new Location();
         location.setLatitude(alarm.getLocation().getLatitude());
         location.setLongitude(alarm.getLocation().getLongitude());

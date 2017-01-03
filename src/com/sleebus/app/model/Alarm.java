@@ -225,6 +225,7 @@ public class Alarm {
                     alarm.setRadius(radius);
                     alarm.setSound(sound);
                     alarm.setVibrate(vibrate);
+                    alarm.setState(alarm.getState());
                     AlarmDaoImpl.getInstance().updateAlarm(alarm);
                     return alarm;
                 } else

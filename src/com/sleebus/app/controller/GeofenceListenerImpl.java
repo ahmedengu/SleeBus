@@ -1,6 +1,7 @@
 package com.sleebus.app.controller;
 
 import com.codename1.location.GeofenceListener;
+import com.codename1.location.LocationManager;
 import com.codename1.notifications.LocalNotification;
 import com.codename1.ui.Display;
 
@@ -16,6 +17,7 @@ public class GeofenceListenerImpl implements GeofenceListener {
 
     @Override
     public void onEntered(String id) {
+        LocationManager.getLocationManager().removeGeoFencing(id);
         LocalNotification notification = new LocalNotification();
         notification.setId(id);
         notification.setAlertTitle("SleeBus");
