@@ -13,4 +13,6 @@ public interface AlarmState {
     public void attach(Alarm alarm);
 
     public boolean isNull();
+
+    public void action(Alarm alarm);
 }

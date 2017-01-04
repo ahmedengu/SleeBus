@@ -28,4 +28,9 @@ public class NullAlarmState implements AlarmState {
     public boolean isNull() {
         return true;
     }
+
+    @Override
+    public void action(Alarm alarm) {
+
+    }
 }

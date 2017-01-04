@@ -1,5 +1,6 @@
 package com.sleebus.app.controller;
 
+import com.codename1.location.LocationManager;
 import com.sleebus.app.model.Alarm;
 
 /**
@@ -20,11 +21,16 @@ public class SnoozedState implements AlarmState {
 
     @Override
     public void attach(Alarm alarm) {
-        UtilsFacade.makingNoise(alarm, 600);
+        LocationManager.getLocationManager().removeGeoFencing(alarm.getId());
     }
 
     @Override
     public boolean isNull() {
         return false;
+    }
+
+    @Override
+    public void action(Alarm alarm) {
+        UtilsFacade.makingNoise(alarm, 600);
     }
 }

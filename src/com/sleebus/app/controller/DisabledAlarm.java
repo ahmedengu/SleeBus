@@ -28,4 +28,9 @@ public class DisabledAlarm implements AlarmState {
     public boolean isNull() {
         return false;
     }
+
+    @Override
+    public void action(Alarm alarm) {
+
+    }
 }

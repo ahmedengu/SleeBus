@@ -34,4 +34,9 @@ public class ActiveState implements AlarmState {
     public boolean isNull() {
         return false;
     }
+
+    @Override
+    public void action(Alarm alarm) {
+        UtilsFacade.makingNoise(alarm, 100);
+    }
 }
