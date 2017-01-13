@@ -32,6 +32,10 @@ class AlarmContainer extends com.codename1.ui.Container {
 
         MultiButton nameBtn = new MultiButton(alarm.getName());
         nameBtn.setUIID("Button");
+        if (alarm.getState().getStateName().equals("Disabled"))
+            nameBtn.setUIIDLine2("RedButton");
+        else
+            nameBtn.setUIIDLine2("GreenButton");
         nameBtn.addActionListener(evt -> {
             FormFactory.showForm(FormFactory.SHOW_ALARM, alarm);
         });
@@ -59,6 +63,7 @@ class AlarmContainer extends com.codename1.ui.Container {
                     alarm.setState(state);
                     AlarmDaoImpl.getInstance().updateAlarm(alarm);
                     FontImage.setMaterialIcon(stateBtn, FontImage.MATERIAL_ALARM_ON);
+                    nameBtn.setUIIDLine2("GreenButton");
                 }
             } else {
                 AlarmState state = AlarmStateFactory.getState(AlarmStateFactory.DISABLED);
@@ -66,6 +71,7 @@ class AlarmContainer extends com.codename1.ui.Container {
                     alarm.setState(state);
                     AlarmDaoImpl.getInstance().updateAlarm(alarm);
                     FontImage.setMaterialIcon(stateBtn, FontImage.MATERIAL_ALARM_OFF);
+                    nameBtn.setUIIDLine2("RedButton");
                 }
             }
             getParent().revalidate();
