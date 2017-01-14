@@ -34,7 +34,9 @@ public class Alert extends AbstractForm {
         setLayout(new BorderLayout());
         setTitle(name);
         setName(name);
-        CountdownLabel countdownLabel = new CountdownLabel(120, FontImage.createMaterial(FontImage.MATERIAL_ALARM, new Style()), "Label", new CountdownLabel.Callback() {
+        Style s = new Style();
+        s.setFgColor(0xFFFFFF);
+        CountdownLabel countdownLabel = new CountdownLabel(120, FontImage.createMaterial(FontImage.MATERIAL_ALARM, s), "Label", new CountdownLabel.Callback() {
             @Override
             public void done() {
                 AlarmState state = AlarmStateFactory.getState(AlarmStateFactory.SNOOZED);
@@ -44,7 +46,7 @@ public class Alert extends AbstractForm {
                 }
             }
         });
-        add(BorderLayout.CENTER, countdownLabel);
+        add(BorderLayout.CENTER, FlowLayout.encloseCenterMiddle(countdownLabel));
 
         Container southCnt = new Container(new FlowLayout(Component.CENTER, Component.CENTER));
 
