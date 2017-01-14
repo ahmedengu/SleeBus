@@ -13,7 +13,7 @@ public class FormFactory {
     public static final int NEW_ALARM = 2;
     public static final int SHOW_ALARM = 3;
 
-    public static String[] FORMS = new String[]{"Alert", "Home", "New Alarm", "Show Form"};
+    public static String[] FORMS = new String[]{"Alert", "Home", "New Alarm", "Edit Alarm"};
 
     private FormFactory() {
 
